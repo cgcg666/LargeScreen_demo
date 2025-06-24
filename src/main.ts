@@ -3,7 +3,7 @@
  * @Author: cg
  * @Date: 2025-06-24 11:07:39
  * @LastEditors: cg
- * @LastEditTime: 2025-06-24 16:24:58
+ * @LastEditTime: 2025-06-24 19:43:33
  */
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -15,7 +15,6 @@ import './global.less'
 import 'virtual:uno.css'
 
 import Echarts from 'vue-echarts'
-import * as echarts from 'echarts'
 import 'echarts-gl'
 
 const app = createApp(App)
@@ -25,8 +24,6 @@ app.use(router)
 
 // 使用组件
 app.component('e-charts', Echarts)
-// 全局挂载 echarts
-app.config.globalProperties.$echarts = echarts
 
 app.mount('#app')
 

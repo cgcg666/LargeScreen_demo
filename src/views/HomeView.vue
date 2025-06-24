@@ -16,7 +16,7 @@
         <Board title="可控飞行撞地风险人员TOP10"><div>啊啊啊2</div></Board>
       </div>
       <div style="grid-area: 1 / 5 / 15 / 17">
-        <Board title="来了来了3"><div>啊啊啊3</div></Board>
+        <MapComponents />
       </div>
       <div style="grid-area: 1 / 17 / 6 / 21">
         <Board title="关键指标均值">
@@ -122,6 +122,7 @@
 import { ref } from 'vue'
 import CountUp from 'vue-countup-v3'
 import Board from '@/components/Board.vue'
+import MapComponents from '@/components/MapComponents.vue'
 </script>
 
 <style lang="less" scoped>
