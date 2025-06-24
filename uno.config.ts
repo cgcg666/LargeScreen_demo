@@ -1,11 +1,17 @@
+/*
+ * @Description: file content
+ * @Author: cg
+ * @Date: 2025-06-24 15:20:48
+ * @LastEditors: cg
+ * @LastEditTime: 2025-06-24 16:15:04
+ */
 // uno.config.ts
 import { defineConfig } from 'unocss'
-import presetWind3 from '@unocss/preset-wind3'
-// import presetRemToPx from '@unocss/preset-rem-to-px'
+import presetMini from '@unocss/preset-mini'
 
 export default defineConfig({
   presets: [
-    presetWind3(),
+    presetMini(),
     // unocss 默认rem，转成px
     // presetRemToPx({
     //   baseFontSize: 4,

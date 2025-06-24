@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@unocss/preset-rem-to-px':
+        specifier: ^66.2.3
+        version: 66.2.3
       echarts:
         specifier: ^5.6.0
         version: 5.6.0
@@ -23,6 +26,9 @@ importers:
       vue:
         specifier: ^3.5.13
         version: 3.5.17(typescript@5.8.3)
+      vue-countup-v3:
+        specifier: ^1.4.2
+        version: 1.4.2(vue@3.5.17(typescript@5.8.3))
       vue-echarts:
         specifier: ^7.0.3
         version: 7.0.3(@vue/runtime-core@3.5.17)(echarts@5.6.0)(vue@3.5.17(typescript@5.8.3))
@@ -36,6 +42,9 @@ importers:
       '@types/node':
         specifier: ^22.14.0
         version: 22.15.32
+      '@unocss/preset-mini':
+        specifier: ^66.2.3
+        version: 66.2.3
       '@unocss/preset-wind3':
         specifier: ^66.2.3
         version: 66.2.3
@@ -731,6 +740,9 @@ packages:
   '@unocss/preset-mini@66.2.3':
     resolution: {integrity: sha512-qGdpp5ZiekR0QREFzc5eOTjMaYT3FWs9wQJqYKZNY3OJ8wMFpgDVoDTpqdfgvCiL7hheYITuxLDHw0gp/vDGBw==}
 
+  '@unocss/preset-rem-to-px@66.2.3':
+    resolution: {integrity: sha512-4p4bhbOKaJIQ1bnsvOakEK+I5pQXloRN2eFSA64yjGww7USM/81hYuOx5FFjiA8kfd6n+Y+ym6SmLjfKNrbf5A==}
+
   '@unocss/preset-tagify@66.2.3':
     resolution: {integrity: sha512-vAso+TdrcEipPiCJosYysE1VsEF9UlViwPQQuCBA1vQzhVY3pxfv5+JTHQ3Zg7q34HC+O8WfILnosUa/bMZcLQ==}
 
@@ -1010,6 +1022,9 @@ packages:
   copy-anything@3.0.5:
     resolution: {integrity: sha512-yCEafptTtb4bk7GLEQoM8KVJpxAfdBJYaXyzQEgQQQgYrZiDp8SJmGKlYza6CYjEDNstAdNdKA3UuoULlEbS6w==}
     engines: {node: '>=12.13'}
+
+  countup.js@2.9.0:
+    resolution: {integrity: sha512-llqrvyXztRFPp6+i8jx25phHWcVWhrHO4Nlt0uAOSKHB8778zzQswa4MU3qKBvkXfJKftRYFJuVHez67lyKdHg==}
 
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
@@ -1920,6 +1935,11 @@ packages:
   vscode-uri@3.1.0:
     resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
 
+  vue-countup-v3@1.4.2:
+    resolution: {integrity: sha512-nRC65jBcdgwybxqztgd/WaK8ZN5T9ECPyiCFGYFMewCsvqdRVo1CtpT7JREcPNF837Fgu/izTSFiuzrIGD6w0A==}
+    peerDependencies:
+      vue: ^3.0.0
+
   vue-demi@0.13.11:
     resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
     engines: {node: '>=12'}
@@ -2645,6 +2665,10 @@ snapshots:
       '@unocss/extractor-arbitrary-variants': 66.2.3
       '@unocss/rule-utils': 66.2.3
 
+  '@unocss/preset-rem-to-px@66.2.3':
+    dependencies:
+      '@unocss/core': 66.2.3
+
   '@unocss/preset-tagify@66.2.3':
     dependencies:
       '@unocss/core': 66.2.3
@@ -3009,6 +3033,8 @@ snapshots:
   copy-anything@3.0.5:
     dependencies:
       is-what: 4.1.16
+
+  countup.js@2.9.0: {}
 
   cross-spawn@7.0.6:
     dependencies:
@@ -3895,6 +3921,11 @@ snapshots:
       less: 4.3.0
 
   vscode-uri@3.1.0: {}
+
+  vue-countup-v3@1.4.2(vue@3.5.17(typescript@5.8.3)):
+    dependencies:
+      countup.js: 2.9.0
+      vue: 3.5.17(typescript@5.8.3)
 
   vue-demi@0.13.11(vue@3.5.17(typescript@5.8.3)):
     dependencies:
