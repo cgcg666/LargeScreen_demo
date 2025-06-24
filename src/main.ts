@@ -5,13 +5,14 @@
  * @LastEditors: cg
  * @LastEditTime: 2025-06-24 11:38:38
  */
-import './global.less'
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+
+import './global.less'
+import 'virtual:uno.css'
 
 import Echarts from 'vue-echarts'
 import * as echarts from 'echarts'

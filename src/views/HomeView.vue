@@ -7,6 +7,7 @@
 -->
 <template>
   <div class="container">
+    <div class="w-full text-center">大屏看板</div>
     <div class="map">
       <e-charts class="chart" :option="option" autoresize />
     </div>
