@@ -1,6 +1,6 @@
 <template>
   <div class="w-full h-full flex flex-col items-center justify-center position-relative">
-    <e-charts ref="chartRef" :option="option" autoresize style="width: 100%; height: 300px" />
+    <e-charts ref="chartRef" :option="option" autoresize />
 
     <!-- 🧾 详情面板 -->
     <!-- <div

@@ -120,7 +120,7 @@
         <Board title="监控事件占比明细"><AreaComponents /></Board>
       </div>
       <div style="grid-area: 15 / 5 / 21 / 17">
-        <Board title="近12周风险监测概览"><div>啊啊啊7</div></Board>
+        <Board title="近12周风险监测概览"><LineComponents /></Board>
       </div>
     </div>
   </div>
@@ -131,6 +131,7 @@ import CountUp from 'vue-countup-v3'
 import Board from '@/components/Board.vue'
 import MapComponents from '@/components/MapComponents.vue'
 import AreaComponents from '@/components/AreaComponents.vue'
+import LineComponents from '@/components/LineComponents.vue'
 // import * as echarts from 'echarts'
 import * as echarts from 'echarts'
 
