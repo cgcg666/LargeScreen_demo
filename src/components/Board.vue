@@ -3,7 +3,7 @@
  * @Author: cg
  * @Date: 2025-06-24 16:34:52
  * @LastEditors: cg
- * @LastEditTime: 2025-06-24 18:40:12
+ * @LastEditTime: 2025-06-25 14:26:54
 -->
 <template>
   <div class="border_container" :style="props.style">
@@ -26,8 +26,8 @@ const slots = computed(() => !!useSlots().default)
 /* Your CSS here */
 .border_container {
   position: relative;
-  background: rgba(0, 35, 120, 0.36);
-  border: 1px solid rgba(100, 162, 255, 0.2);
+  background: rgba(0, 35, 120, 0.7);
+  border: 1px solid rgba(100, 162, 255, 0.3);
   width: 100%;
   height: 100%;
   display: flex;
@@ -37,20 +37,20 @@ const slots = computed(() => !!useSlots().default)
     content: '';
     width: 20px;
     height: 30px;
-    border-left: 1px solid #0258f0;
-    border-top: 1px solid #0258f0;
-    left: -1px;
-    top: -1px;
+    border-left: 3px solid #0064ff;
+    border-top: 3px solid #0064ff;
+    left: -1.5px;
+    top: -1.5px;
   }
   &::after {
     position: absolute;
     content: '';
     width: 20px;
     height: 30px;
-    border-right: 1px solid #0258f0;
-    border-bottom: 1px solid #0258f0;
-    right: -1px;
-    bottom: -1px;
+    border-right: 3px solid #0064ff;
+    border-bottom: 3px solid #0064ff;
+    right: -1.5px;
+    bottom: -1.5px;
   }
   .border_title {
     margin: 0.2rem 0 0 0.5rem;
@@ -73,6 +73,7 @@ const slots = computed(() => !!useSlots().default)
   }
   .border_content {
     flex: 1;
+    overflow: hidden;
   }
 }
 </style>

@@ -3,17 +3,21 @@
  * @Author: cg
  * @Date: 2025-06-24 11:07:39
  * @LastEditors: cg
- * @LastEditTime: 2025-06-24 19:10:14
+ * @LastEditTime: 2025-06-25 14:53:51
 -->
 <template>
   <div class="container">
     <div class="title">CTIT 专题大屏</div>
     <div class="content">
       <div style="grid-area: 1 / 1 / 11 / 5">
-        <Board title="可控飞行撞地风险飞机TOP10"><div>啊啊啊1</div></Board>
+        <Board title="可控飞行撞地风险飞机TOP10">
+          <e-charts :option="option1" autoresize></e-charts>
+        </Board>
       </div>
       <div style="grid-area: 11 / 1 / 21 / 5">
-        <Board title="可控飞行撞地风险人员TOP10"><div>啊啊啊2</div></Board>
+        <Board title="可控飞行撞地风险人员TOP10">
+          <e-charts :option="option2" autoresize></e-charts>
+        </Board>
       </div>
       <div style="grid-area: 1 / 5 / 15 / 17">
         <MapComponents />
@@ -106,7 +110,11 @@
         </Board>
       </div>
       <div style="grid-area: 6 / 17 / 14 / 21">
-        <Board title="重点监控事件"><div>啊啊啊5</div></Board>
+        <Board title="重点监控事件">
+          <Scrollbar style="max-height: 100%" :auto-hide="false">
+            <div>啊啊啊5</div>
+          </Scrollbar>
+        </Board>
       </div>
       <div style="grid-area: 14 / 17 / 21 / 21">
         <Board title="监控事件占比明细"><div>啊啊啊6</div></Board>
@@ -123,6 +131,170 @@ import { ref } from 'vue'
 import CountUp from 'vue-countup-v3'
 import Board from '@/components/Board.vue'
 import MapComponents from '@/components/MapComponents.vue'
+// import * as echarts from 'echarts'
+import * as echarts from 'echarts'
+
+const list1 = [11, 12, 15, 18, 19, 19, 19, 21, 24, 31]
+const total1 = list1.reduce((acc, val) => acc + val, 0)
+
+const option1: echarts.EChartsOption = {
+  // title: {
+  //   text: 'Bar Chart with Negative Value',
+  // },
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow',
+    },
+  },
+  grid: {
+    left: 60,
+    top: 10,
+    bottom: 15,
+  },
+  xAxis: {
+    type: 'value',
+    // position: 'top',
+    splitLine: {
+      lineStyle: {
+        color: '#3959a7',
+        // type: 'dashed',
+      },
+    },
+    axisLabel: {
+      show: false,
+    },
+  },
+  yAxis: {
+    type: 'category',
+    axisLabel: {
+      color: '#fff',
+      opacity: 0.6,
+    },
+    axisTick: {
+      show: false,
+    },
+    data: [
+      'B1234',
+      'B3465',
+      'B3094',
+      'B3244',
+      'B5663',
+      'B7832',
+      'B5632',
+      'B12367',
+      'B2356',
+      'B7632',
+    ],
+  },
+  series: [
+    {
+      name: 'Cost',
+      type: 'bar',
+      stack: 'Total',
+      label: {
+        show: true,
+        position: 'inside',
+        offset: [0, 1.2],
+        formatter: (params) => {
+          const percent = ((Number(params.value) / total1) * 100).toFixed(1)
+          return `${params.value}/${percent}%`
+        },
+      },
+      itemStyle: {
+        color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [
+          { offset: 0, color: '#01bee8' },
+          { offset: 0.5, color: '#1e98db' },
+          { offset: 1, color: '#3a74cf' },
+        ]),
+        borderRadius: 12, // 设置柱体圆角半径
+      },
+      barWidth: '50%',
+      data: list1,
+    },
+  ],
+}
+
+const list2 = [11, 12, 15, 18, 19, 19, 19, 21, 24, 31]
+const total2 = list1.reduce((acc, val) => acc + val, 0)
+
+const option2: echarts.EChartsOption = {
+  // title: {
+  //   text: 'Bar Chart with Negative Value',
+  // },
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow',
+    },
+  },
+  grid: {
+    left: 100,
+    top: 10,
+    bottom: 15,
+  },
+  xAxis: {
+    type: 'value',
+    // position: 'top',
+    splitLine: {
+      lineStyle: {
+        color: '#3959a7',
+        // type: 'dashed',
+      },
+    },
+    axisLabel: {
+      show: false,
+    },
+  },
+  yAxis: {
+    type: 'category',
+    axisLabel: {
+      color: '#fff',
+      opacity: 0.6,
+    },
+    axisTick: {
+      show: false,
+    },
+    data: [
+      '张三(234274)',
+      '王小强(384752)',
+      '赵明(231345)',
+      '李雷(427465)',
+      '小李(345524)',
+      '刘强(227213)',
+      '郭四(148522)',
+      '王五(948572)',
+      '赵六(475623)',
+      '小明(182345)',
+    ],
+  },
+  series: [
+    {
+      name: 'Cost',
+      type: 'bar',
+      stack: 'Total',
+      label: {
+        show: true,
+        position: 'inside',
+        offset: [0, 1.2],
+        formatter: (params) => {
+          const percent = ((Number(params.value) / total2) * 100).toFixed(1)
+          return `${params.value}/${percent}%`
+        },
+      },
+      itemStyle: {
+        color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [
+          { offset: 0, color: '#01bee8' },
+          { offset: 0.5, color: '#1e98db' },
+          { offset: 1, color: '#3a74cf' },
+        ]),
+        borderRadius: 12, // 设置柱体圆角半径
+      },
+      barWidth: '50%',
+      data: list2,
+    },
+  ],
+}
 </script>
 
 <style lang="less" scoped>
@@ -134,12 +306,29 @@ import MapComponents from '@/components/MapComponents.vue'
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
+  @keyframes pulseGlow {
+    0%,
+    100% {
+      text-shadow:
+        0 0 5px #25f3e6,
+        0 0 10px #25f3e6,
+        0 0 20px #25f3e6,
+        0 0 30px #f8cfbb,
+        0 0 60px #f8cfbb,
+        0 0 70px #f8cfbb,
+        0 0 90px #ffff00,
+        0 0 140px #ffff00;
     }
-    to {
-      opacity: 1;
+    50% {
+      text-shadow:
+        0 0 20px #f8cfbb,
+        0 0 30px #f8cfbb,
+        0 0 50px #f8cfbb,
+        0 0 60px #25f3e6,
+        0 0 90px #25f3e6,
+        0 0 120px #25f3e6,
+        0 0 140px #ffff00,
+        0 0 180px #ffff00;
     }
   }
   .title {
@@ -150,10 +339,9 @@ import MapComponents from '@/components/MapComponents.vue'
     color: white;
     text-align: center;
     letter-spacing: 0.1em;
-    text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
-    /* 动画效果 */
-    animation: fadeIn 1.2s ease-in-out forwards;
+    animation: pulseGlow 5s infinite alternate;
   }
+  /* 定义动画 */
 
   .content {
     gap: 0.5rem;

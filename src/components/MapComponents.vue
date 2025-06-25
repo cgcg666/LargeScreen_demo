@@ -136,6 +136,7 @@ const option = ref({})
 onMounted(() => {
   // 挂载echart
   // chartMap()
+  // @ts-expect-error geojson数据
   echarts.registerMap('china', geoJson)
   option.value = {
     // 背景颜色

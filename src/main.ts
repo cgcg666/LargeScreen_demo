@@ -3,13 +3,15 @@
  * @Author: cg
  * @Date: 2025-06-24 11:07:39
  * @LastEditors: cg
- * @LastEditTime: 2025-06-24 19:43:33
+ * @LastEditTime: 2025-06-25 14:09:41
  */
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+
+import Scrollbar from '@/components/Scrollbar.vue'
 
 import './global.less'
 import 'virtual:uno.css'
@@ -24,6 +26,7 @@ app.use(router)
 
 // 使用组件
 app.component('e-charts', Echarts)
+app.component('Scrollbar', Scrollbar)
 
 app.mount('#app')
 
