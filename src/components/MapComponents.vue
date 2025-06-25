@@ -1,5 +1,153 @@
 <template>
-  <e-charts :option="option" autoresize></e-charts>
+  <div class="map-container">
+    <div class="display-area">
+      <div class="box">
+        <div class="icon">
+          <img
+            id="u1443_img"
+            class="img"
+            src="http://47.120.1.240/gsc/JNX63E/cb/40/f9/cb40f9a56def469eb0d4a63b6a7b7361/images/cfit_专题大屏_1/u1443.svg"
+          />
+        </div>
+        <div class="right-item">
+          <div>航班量</div>
+          <div>
+            <count-up
+              :start-val="flightVolumeData[displayIndex]"
+              :end-val="flightVolumeData[displayIndex + 1]"
+              :duration="1"
+              :decimalPlaces="0"
+              :options="{ useGrouping: false }"
+            ></count-up>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="icon">
+          <img
+            id="u1448_img"
+            class="img"
+            src="http://47.120.1.240/gsc/JNX63E/cb/40/f9/cb40f9a56def469eb0d4a63b6a7b7361/images/cfit_专题大屏_1/u1448.svg"
+          />
+        </div>
+        <div class="right-item">
+          <div>重点监控事件发生次数/率</div>
+          <div class="flex justify-center">
+            <count-up
+              :start-val="occurrenceCount[displayIndex]"
+              :end-val="occurrenceCount[displayIndex + 1]"
+              :duration="1"
+              :decimalPlaces="0"
+              :options="{ useGrouping: false }"
+            ></count-up
+            >/<count-up
+              :start-val="occurrenceRate[displayIndex]"
+              :end-val="occurrenceRate[displayIndex + 1]"
+              :duration="1"
+              :decimalPlaces="2"
+              :options="{ useGrouping: false }"
+            ></count-up
+            >%
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="icon">
+          <img
+            id="u1452_img"
+            class="img"
+            src="http://47.120.1.240/gsc/JNX63E/cb/40/f9/cb40f9a56def469eb0d4a63b6a7b7361/images/cfit_专题大屏_1/u1452.svg"
+          />
+        </div>
+        <div class="right-item">
+          <div>可控飞行撞地风险指数</div>
+          <div
+            :class="{
+              'text-red-500': riskIndex[displayIndex + 1] > 10.5,
+              'text-green-500': riskIndex[displayIndex + 1] <= 9.3,
+              'text-yellow-500':
+                riskIndex[displayIndex + 1] > 9.3 && riskIndex[displayIndex + 1] <= 10.5,
+            }"
+          >
+            <count-up
+              :start-val="riskIndex[displayIndex]"
+              :end-val="riskIndex[displayIndex + 1]"
+              :duration="1"
+              :decimalPlaces="2"
+              :options="{ useGrouping: false }"
+            ></count-up>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="icon">
+          <img
+            id="u1825_img"
+            class="img"
+            src="http://47.120.1.240/gsc/JNX63E/cb/40/f9/cb40f9a56def469eb0d4a63b6a7b7361/images/cfit_专题大屏_1/u1825.svg"
+          />
+        </div>
+        <div class="right-item">
+          <div>橙色人数</div>
+          <div>
+            <count-up
+              :start-val="orangePeopleCount[displayIndex]"
+              :end-val="orangePeopleCount[displayIndex + 1]"
+              :duration="1"
+              :decimalPlaces="0"
+              :options="{ useGrouping: false }"
+            ></count-up>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="icon">
+          <img
+            id="u1831_img"
+            class="img"
+            src="http://47.120.1.240/gsc/JNX63E/cb/40/f9/cb40f9a56def469eb0d4a63b6a7b7361/images/cfit_专题大屏_1/u1831.svg"
+          />
+        </div>
+        <div class="right-item">
+          <div>黄色人数</div>
+          <div>
+            <count-up
+              :start-val="yellowPeopleCount[displayIndex]"
+              :end-val="yellowPeopleCount[displayIndex + 1]"
+              :duration="1"
+              :decimalPlaces="0"
+              :options="{ useGrouping: false }"
+            ></count-up>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="icon">
+          <img
+            id="u1832_img"
+            class="img"
+            src="http://47.120.1.240/gsc/JNX63E/cb/40/f9/cb40f9a56def469eb0d4a63b6a7b7361/images/cfit_专题大屏_1/u1832.svg"
+          />
+        </div>
+        <div class="right-item">
+          <div>红色人数</div>
+          <div>
+            <count-up
+              :start-val="redPeopleCount[displayIndex]"
+              :end-val="redPeopleCount[displayIndex + 1]"
+              :duration="1"
+              :decimalPlaces="0"
+              :options="{ useGrouping: false }"
+            ></count-up>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="title">可控飞行撞地风险机场TOP10</div>
+    <div class="map">
+      <e-charts :option="option" autoresize></e-charts>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -7,6 +155,154 @@
 import geoJson from '@/assets/china_province.json'
 import * as echarts from 'echarts'
 import { onMounted, ref } from 'vue'
+import CountUp from 'vue-countup-v3'
+
+const option = ref({})
+
+function chartMap() {
+  echarts.registerMap('china', geoJson)
+  option.value = {
+    // 背景颜色
+    backgroundColor: 'transparent',
+
+    // 鼠标悬浮提示框配置
+    tooltip: {
+      // 自定义内容格式化函数
+      formatter: (params) => {
+        const data = cityData.find((c) => c.name === params.name)
+        if (!data) return ''
+        return `
+        <div style="font-size:13px;">
+          <strong>${params.name} (${data.icaoCode})</strong><br/>
+          ✈️ 航班量: ${data.flight}<br/>
+          ⚠️ 事件: ${data.incidents} (${(data.incidentRate * 100).toFixed(2)}%)<br/>
+          🔴红: ${data.red} 🟡黄: ${data.yellow}
+        </div>
+      `
+      },
+      // 提示框背景颜色
+      backgroundColor: 'rgba(0,0,0,0.8)',
+      // 提示框文字样式
+      textStyle: { color: '#fff' },
+    },
+
+    // 地理三维图配置
+    // geo3D配置文档 https://echarts.apache.org/zh/option-gl.html#geo3D
+    geo3D: {
+      // 使用的地图类型（china为中国地图）
+      map: 'china',
+      // 是否支持缩放和平移
+      roam: true,
+      // 区域样式配置
+      itemStyle: {
+        // 区域颜色
+        color: '#3eabff',
+        // 区域边界颜色
+        borderColor: '#eee',
+        // 边界宽度
+        borderWidth: 1,
+      },
+      // 鼠标悬浮时的高亮效果
+      emphasis: {
+        label: {
+          show: true, // 显示文字
+          color: '#fff', // 高亮字体颜色
+          fontSize: 14,
+        },
+        itemStyle: {
+          color: '#006be4', // 高亮时区域颜色
+        },
+      },
+      // 光照模式（lambert比realistic更高性能）
+      shading: 'lambert',
+      // 光照配置
+      light: {
+        // 主光源
+        main: {
+          intensity: 0.8, // 强度
+          shadow: false, // 是否开启阴影
+          alpha: 55, // 光源垂直角度
+          beta: 10, // 光源水平角度
+        },
+        // 环境光
+        ambient: {
+          intensity: 0.3, // 环境光强度
+        },
+      },
+      // 视角控制
+      viewControl: {
+        distance: 100, // 相机与视点的距离
+        alpha: 65, // 俯视角度（垂直方向）
+        beta: 0, // 水平旋转角度
+        animation: true, // 是否开启动画。[ default: true ]
+        animationDurationUpdate: 1000, // 过渡动画的时长。[ default: 1000 ]
+        animationEasingUpdate: 'cubicInOut', // 过渡动画的缓动效果。[ default: cubicInOut ]
+      },
+    },
+
+    // 数据系列（柱状体）
+    series: [
+      // bar3D配置文档 https://echarts.apache.org/zh/option-gl.html#series-bar3D
+      {
+        name: '机场柱子', // 系列名称
+        type: 'bar3D', // 使用 3D 柱状图
+        coordinateSystem: 'geo3D', // 使用 geo3D 地理坐标系统
+        barSize: 2, // 柱子的粗细
+        minHeight: 2, // 柱子最小高度
+        bevelSize: 0.4, // 柱子的倒角大小
+        bevelSmoothness: 4, // 柱子边缘的平滑度
+        shading: 'realistic', // 柱子自身的光照模式（更真实）
+        realisticMaterial: {
+          roughness: 0, // 粗糙度
+          metalness: 0, // 金属度
+        },
+        data: cityData.map((c) => {
+          // 根据事件发生率判断风险等级颜色
+          let color = '#009966' // 默认绿色（安全）
+          if (c.incidentRate > 0.02) {
+            color = '#d9001b' // 红色（高风险）
+          } else if (c.incidentRate > 0.015) {
+            color = '#d2d257' // 黄色（中等风险）
+          }
+
+          return {
+            name: c.name, // 城市名称
+            value: [...c.coord, c.flight], // 经纬度 + 航班量（柱子高度）
+            label: {
+              show: true, // 柱子顶部标签
+              formatter: `${c.icaoCode}\n${c.incidents}/${(c.incidentRate * 100).toFixed(2)}%`,
+              distance: 0, // 标签距离柱子顶部的距离
+              textStyle: {
+                color: '#fff', // 标签文字颜色
+                fontSize: 12, // 标签文字大小
+                fontWeight: 'bold', // 标签文字加粗
+              },
+            },
+            itemStyle: {
+              color, // 柱子颜色（根据风险等级）
+              opacity: 0.8, // 柱子不透明度
+            },
+            emphasis: {
+              label: {
+                show: true,
+                fontSize: 14,
+                opacity: 1,
+                textStyle: {
+                  color: '#fff', // 标签文字颜色
+                  fontSize: 14, // 标签文字大小
+                  fontWeight: 'bold', // 标签文字加粗
+                },
+              },
+              itemStyle: {
+                opacity: 1,
+              },
+            },
+          }
+        }),
+      },
+    ],
+  }
+}
 
 const cityData = [
   {
@@ -131,147 +427,71 @@ const cityData = [
   },
 ]
 
-const option = ref({})
+const displayIndex = ref(0)
+const flightVolumeData = ref([768, 740, 710, 680, 650, 620, 590, 560, 530, 500]) // 航班量
+const occurrenceCount = ref([38, 36, 34, 32, 30, 28, 26, 24, 22, 20])
+const occurrenceRate = ref([4.95, 4.67, 4.39, 4.12, 3.85, 3.58, 3.31, 3.04, 2.77, 2.5])
+const riskIndex = ref([10.89, 10.56, 10.23, 9.9, 9.57, 9.24, 8.91, 8.58, 8.25, 8.92])
+const orangePeopleCount = ref([12, 11, 10, 9, 8, 7, 6, 5, 4, 3])
+const yellowPeopleCount = ref([6, 5, 4, 3, 2, 1, 0, 0, 0, 0])
+const redPeopleCount = ref([4, 2, 1, 0, 0, 0, 0, 0, 0, 0])
+
+function updateData() {
+  displayIndex.value = (displayIndex.value + 1) % 9
+}
 
 onMounted(() => {
   // 挂载echart
-  // chartMap()
-  // @ts-expect-error geojson数据
-  echarts.registerMap('china', geoJson)
-  option.value = {
-    // 背景颜色
-    backgroundColor: 'transparent',
-
-    // 鼠标悬浮提示框配置
-    tooltip: {
-      // 自定义内容格式化函数
-      formatter: (params) => {
-        const data = cityData.find((c) => c.name === params.name)
-        if (!data) return ''
-        return `
-        <div style="font-size:13px;">
-          <strong>${params.name} (${data.icaoCode})</strong><br/>
-          ✈️ 航班量: ${data.flight}<br/>
-          ⚠️ 事件: ${data.incidents} (${(data.incidentRate * 100).toFixed(2)}%)<br/>
-          🔴红: ${data.red} 🟡黄: ${data.yellow}
-        </div>
-      `
-      },
-      // 提示框背景颜色
-      backgroundColor: 'rgba(0,0,0,0.8)',
-      // 提示框文字样式
-      textStyle: { color: '#fff' },
-    },
-
-    // 地理三维图配置
-    // geo3D配置文档 https://echarts.apache.org/zh/option-gl.html#geo3D
-    geo3D: {
-      // 使用的地图类型（china为中国地图）
-      map: 'china',
-      // 是否支持缩放和平移
-      roam: true,
-      // 区域样式配置
-      itemStyle: {
-        // 区域颜色
-        color: '#0a3fb2',
-        // 区域边界颜色
-        borderColor: '#0d6efd',
-        // 边界宽度
-        borderWidth: 1,
-      },
-      // 地图上城市标签样式
-      label: {
-        show: true, // 显示城市名称
-        color: '#0a3fb2', // 字体颜色
-        fontSize: 10, // 字体大小
-      },
-      // 鼠标悬浮时的高亮效果
-      emphasis: {
-        label: {
-          show: true, // 显示文字
-          color: '#fff', // 高亮字体颜色
-          fontSize: 12,
-        },
-        itemStyle: {
-          color: '#3399ff', // 高亮时区域颜色
-        },
-      },
-      // 光照模式（lambert比realistic更高性能）
-      shading: 'lambert',
-      // 光照配置
-      light: {
-        // 主光源
-        main: {
-          intensity: 1, // 强度
-          shadow: false, // 是否开启阴影
-          alpha: 55, // 光源垂直角度
-          beta: 10, // 光源水平角度
-        },
-        // 环境光
-        ambient: {
-          intensity: 0.3, // 环境光强度
-        },
-      },
-      // 视角控制
-      viewControl: {
-        distance: 140, // 相机与视点的距离
-        alpha: 35, // 俯视角度（垂直方向）
-        beta: 15, // 水平旋转角度
-      },
-    },
-
-    // 数据系列（柱状体）
-    series: [
-      // bar3D配置文档 https://echarts.apache.org/zh/option-gl.html#series-bar3D
-      {
-        name: '机场柱子', // 系列名称
-        type: 'bar3D', // 使用 3D 柱状图
-        coordinateSystem: 'geo3D', // 使用 geo3D 地理坐标系统
-        barSize: 2, // 柱子的粗细
-        minHeight: 2, // 柱子最小高度
-        bevelSize: 0.4, // 柱子的倒角大小
-        bevelSmoothness: 4, // 柱子边缘的平滑度
-        shading: 'realistic', // 柱子自身的光照模式（更真实）
-        realisticMaterial: {
-          roughness: 0, // 粗糙度
-          metalness: 0, // 金属度
-        },
-        data: cityData.map((c) => {
-          // 根据事件发生率判断风险等级颜色
-          let color = '#06bcdb' // 默认蓝色（安全）
-          if (c.incidentRate > 0.02) {
-            color = '#d9001b' // 红色（高风险）
-          } else if (c.incidentRate > 0.015) {
-            color = '#d2d257' // 黄色（中等风险）
-          }
-
-          return {
-            name: c.name, // 城市名称
-            value: [...c.coord, c.flight], // 经纬度 + 航班量（柱子高度）
-            label: {
-              show: true, // 柱子顶部标签
-              formatter: `${c.icaoCode}\n${c.incidents}/${(c.incidentRate * 100).toFixed(2)}%`,
-              fontSize: 12,
-              color: '#fff',
-              distance: 10, // 标签距离柱子顶部的距离
-            },
-            itemStyle: {
-              color, // 柱子颜色（根据风险等级）
-              opacity: 0.6, // 柱子不透明度
-            },
-          }
-        }),
-        // 再次定义柱子顶部标签（冗余但也能统一设置）
-        label: {
-          show: true,
-          position: 'top', // 标签在柱子顶部
-          fontSize: 12,
-          color: '#fff',
-        },
-      },
-    ],
-  }
+  chartMap()
+  setInterval(() => {
+    // 每隔5秒更新一次数据
+    updateData()
+  }, 5000)
 })
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.map-container {
+  width: 100%;
+  height: 100%;
+  .display-area {
+    margin-top: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    .box {
+      background: rgba(0, 35, 120, 0.7);
+      border: 1px solid rgba(100, 162, 255, 0.2);
+      box-sizing: border-box;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 20px;
+      .icon {
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
+        .img {
+          width: 100%;
+        }
+      }
+      .right-item {
+        font-size: 14px;
+        color: #fff;
+        text-align: center;
+      }
+    }
+  }
+  .title {
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 20px;
+  }
+  .map {
+    width: 100%;
+    height: calc(100% - 110px);
+  }
+}
+</style>
