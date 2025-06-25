@@ -145,7 +145,7 @@
     </div>
     <div class="title">可控飞行撞地风险机场TOP10</div>
     <div class="map">
-      <e-charts :option="option" autoresize></e-charts>
+      <e-charts ref="chartRef" :option="option" autoresize></e-charts>
     </div>
   </div>
 </template>
@@ -156,6 +156,8 @@ import geoJson from '@/assets/china_province.json'
 import * as echarts from 'echarts'
 import { onMounted, ref } from 'vue'
 import CountUp from 'vue-countup-v3'
+
+const chartRef = ref(null)
 
 const option = ref({})
 
@@ -428,16 +430,31 @@ const cityData = [
 ]
 
 const displayIndex = ref(0)
-const flightVolumeData = ref([768, 740, 710, 680, 650, 620, 590, 560, 530, 500]) // 航班量
-const occurrenceCount = ref([38, 36, 34, 32, 30, 28, 26, 24, 22, 20])
-const occurrenceRate = ref([4.95, 4.67, 4.39, 4.12, 3.85, 3.58, 3.31, 3.04, 2.77, 2.5])
-const riskIndex = ref([10.89, 10.56, 10.23, 9.9, 9.57, 9.24, 8.91, 8.58, 8.25, 8.92])
-const orangePeopleCount = ref([12, 11, 10, 9, 8, 7, 6, 5, 4, 3])
-const yellowPeopleCount = ref([6, 5, 4, 3, 2, 1, 0, 0, 0, 0])
-const redPeopleCount = ref([4, 2, 1, 0, 0, 0, 0, 0, 0, 0])
+const flightVolumeData = ref([0, 768, 740, 710, 680, 650, 620, 590, 560, 530, 500]) // 航班量
+const occurrenceCount = ref([0, 38, 36, 34, 32, 30, 28, 26, 24, 22, 20]) // 事件发生次数
+const occurrenceRate = ref([0, 4.95, 4.67, 4.39, 4.12, 3.85, 3.58, 3.31, 3.04, 2.77, 2.5]) // 事件发生率
+const riskIndex = ref([0, 10.89, 10.56, 10.23, 9.9, 9.57, 9.24, 8.91, 8.58, 8.25, 8.92]) // 风险指数
+const orangePeopleCount = ref([0, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3]) // 橙色人员数量
+const yellowPeopleCount = ref([0, 6, 5, 4, 3, 2, 1, 0, 0, 0, 0]) // 黄色人员数量
+const redPeopleCount = ref([0, 4, 2, 1, 0, 0, 0, 0, 0, 0, 0]) // 红色人员数量
 
 function updateData() {
-  displayIndex.value = (displayIndex.value + 1) % 9
+  // 取消上一个高亮
+    chartRef.value?.dispatchAction({
+      type: 'downplay',
+      seriesIndex: 0,
+      dataIndex: displayIndex.value,
+    })
+
+    displayIndex.value = (displayIndex.value + 1) % 10 // 每隔5秒更新一次数据
+
+    // 高亮当前柱子
+    chartRef.value?.dispatchAction({
+      type: 'highlight',
+      seriesIndex: 0,
+      dataIndex: displayIndex.value,
+    })
+
 }
 
 onMounted(() => {

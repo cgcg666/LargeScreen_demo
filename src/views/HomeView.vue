@@ -117,7 +117,7 @@
         </Board>
       </div>
       <div style="grid-area: 14 / 17 / 21 / 21">
-        <Board title="监控事件占比明细"><div>啊啊啊6</div></Board>
+        <Board title="监控事件占比明细"><AreaComponents /></Board>
       </div>
       <div style="grid-area: 15 / 5 / 21 / 17">
         <Board title="近12周风险监测概览"><div>啊啊啊7</div></Board>
@@ -127,10 +127,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import CountUp from 'vue-countup-v3'
 import Board from '@/components/Board.vue'
 import MapComponents from '@/components/MapComponents.vue'
+import AreaComponents from '@/components/AreaComponents.vue'
 // import * as echarts from 'echarts'
 import * as echarts from 'echarts'
 
@@ -306,6 +306,7 @@ const option2: echarts.EChartsOption = {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  user-select: none;
   @keyframes pulseGlow {
     0%,
     100% {
