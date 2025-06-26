@@ -111,7 +111,13 @@
       </div>
       <div style="grid-area: 6 / 17 / 14 / 21">
         <Board title="重点监控事件">
-          <Scrollbar style="max-height: 100%; padding: 5px 0 10px" :auto-hide="false">
+          <Scrollbar
+            ref="scrollRef"
+            style="max-height: 100%; padding: 5px 0 10px"
+            :auto-hide="false"
+            @mouseenter="isHovering = true"
+            @mouseleave="isHovering = false"
+          >
             <div style="height: 22rem">
               <e-charts :option="option3" autoresize></e-charts>
             </div>
@@ -314,15 +320,15 @@ const list3 = [11, 12, 15, 18, 19, 19, 19, 21, 24, 31]
 const total3 = list1.reduce((acc, val) => acc + val, 0)
 const nameList3 = [
   '着陆距离小于250米',
-  '起飞阶段(50英尺以下)坡度大于6度',
-  '着陆阶段(50英尺以下)坡度大于6度',
+  '起飞阶段坡度大于6度',
+  '着陆阶段坡度大于6度',
   '着陆距离大于900米',
   '着陆收油门高度大于30英尺',
   '接地姿态小于1度',
-  '着陆时偏流角度大(大于等于5度)',
+  '着陆时偏流角度大',
   '500-50进近下降率大',
   '着陆载荷超过1.5',
-  '带油门接地(油门位置超过44)',
+  '带油门接地',
 ]
 
 // 名字长度格式化
@@ -405,6 +411,35 @@ const option3: echarts.EChartsOption = {
   ],
 }
 
+// 引用 Scrollbar 实例
+const scrollRef = ref<InstanceType<typeof Scrollbar>>()
+const isHovering = ref(false)
+let scrollTimer: ReturnType<typeof setInterval> | null = null
+
+// 启动自动滚动
+function startAutoScroll() {
+  if (scrollTimer) return
+  scrollTimer = setInterval(() => {
+    const el = scrollRef.value?.$refs.containerRef as HTMLElement
+    if (!el || isHovering.value) return
+
+    const maxScrollTop = el.scrollHeight - el.clientHeight
+    if (el.scrollTop >= maxScrollTop) {
+      el.scrollTop = 0
+    } else {
+      el.scrollTop += 1
+    }
+  }, 50)
+}
+
+// 停止自动滚动
+function stopAutoScroll() {
+  if (scrollTimer) {
+    clearInterval(scrollTimer)
+    scrollTimer = null
+  }
+}
+
 const demoList = [
   [394.42, 5.5, 200.0, 2.2, 394.42, 7.2],
   [354.98, 5.78, 190.0, 2.42, 414.14, 6.48],
@@ -438,6 +473,7 @@ onMounted(() => {
       curIndex.value += 1
     }
   }, 3500)
+  startAutoScroll()
 })
 </script>
 

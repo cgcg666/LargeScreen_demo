@@ -181,11 +181,18 @@ function chartMap() {
         // 边界宽度
         borderWidth: 1,
       },
+      top: 0,
+      bottom: 0,
+      right: 0,
+      left: 0,
+
       // 鼠标悬浮时的高亮效果
       emphasis: {
         label: {
           show: true, // 显示文字
           color: '#fff', // 高亮字体颜色
+          textBorderColor: '#000', // 加文字描边提高对比
+          textBorderWidth: 2, // 描边宽度
           fontSize: 14,
         },
         itemStyle: {
@@ -210,8 +217,8 @@ function chartMap() {
       },
       // 视角控制
       viewControl: {
-        distance: 80, // 相机与视点的距离
-        alpha: 65, // 俯视角度（垂直方向）
+        distance: 85, // 相机与视点的距离
+        alpha: 45, // 俯视角度（垂直方向）
         beta: 0, // 水平旋转角度
         animation: true, // 是否开启动画。[ default: true ]
         animationDurationUpdate: 1000, // 过渡动画的时长。[ default: 1000 ]
@@ -436,7 +443,6 @@ function updateData() {
     seriesIndex: 0,
     dataIndex: displayIndex.value,
   })
-
 }
 
 onMounted(() => {
@@ -485,9 +491,8 @@ onMounted(() => {
     }
   }
   .title {
-    position:absolute;
-    left:10px;
-    top:120px;
+    margin-top: 10px;
+    text-align: center;
     width: 100%;
     color: #fff;
     font-size: 1.2rem;
