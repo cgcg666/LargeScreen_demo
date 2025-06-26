@@ -3,7 +3,7 @@
  * @Author: cg
  * @Date: 2025-06-24 11:07:39
  * @LastEditors: cg
- * @LastEditTime: 2025-06-25 14:53:51
+ * @LastEditTime: 2025-06-25 18:51:28
 -->
 <template>
   <div class="container">
@@ -32,8 +32,8 @@
               <div class="indexTitle">着陆距离</div>
               <div class="indexNum">
                 <count-up
-                  :start-val="0"
-                  :end-val="394.42"
+                  :start-val="indexList.prevList[0]"
+                  :end-val="indexList.curList[0]"
                   :duration="1"
                   :decimalPlaces="2"
                   :options="{ useGrouping: false }"
@@ -45,8 +45,8 @@
               <div class="indexTitle">平飘事件</div>
               <div class="indexNum">
                 <count-up
-                  :start-val="0"
-                  :end-val="5.5"
+                  :start-val="indexList.prevList[1]"
+                  :end-val="indexList.curList[1]"
                   :duration="1"
                   :decimalPlaces="2"
                   :options="{ useGrouping: false }"
@@ -58,8 +58,8 @@
               <div class="indexTitle">复飞后收轮高度</div>
               <div class="indexNum">
                 <count-up
-                  :start-val="0"
-                  :end-val="200"
+                  :start-val="indexList.prevList[2]"
+                  :end-val="indexList.curList[2]"
                   :duration="1"
                   :decimalPlaces="2"
                   :options="{ useGrouping: false }"
@@ -71,8 +71,8 @@
               <div class="indexTitle">起飞俯仰变化率</div>
               <div class="indexNum">
                 <count-up
-                  :start-val="0"
-                  :end-val="2.2"
+                  :start-val="indexList.prevList[3]"
+                  :end-val="indexList.curList[3]"
                   :duration="1"
                   :decimalPlaces="2"
                   :options="{ useGrouping: false }"
@@ -84,8 +84,8 @@
               <div class="indexTitle">50英尺进近速度</div>
               <div class="indexNum">
                 <count-up
-                  :start-val="0"
-                  :end-val="394.42"
+                  :start-val="indexList.prevList[4]"
+                  :end-val="indexList.curList[4]"
                   :duration="1"
                   :decimalPlaces="2"
                   :options="{ useGrouping: false }"
@@ -97,8 +97,8 @@
               <div class="indexTitle">接地姿态大</div>
               <div class="indexNum">
                 <count-up
-                  :start-val="0"
-                  :end-val="7.2"
+                  :start-val="indexList.prevList[5]"
+                  :end-val="indexList.curList[5]"
                   :duration="1"
                   :decimalPlaces="2"
                   :options="{ useGrouping: false }"
@@ -111,8 +111,10 @@
       </div>
       <div style="grid-area: 6 / 17 / 14 / 21">
         <Board title="重点监控事件">
-          <Scrollbar style="max-height: 100%" :auto-hide="false">
-            <div>啊啊啊5</div>
+          <Scrollbar style="max-height: 100%; padding: 5px 0 10px" :auto-hide="false">
+            <div style="height: 22rem">
+              <e-charts :option="option3" autoresize></e-charts>
+            </div>
           </Scrollbar>
         </Board>
       </div>
@@ -127,6 +129,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import CountUp from 'vue-countup-v3'
 import Board from '@/components/Board.vue'
 import MapComponents from '@/components/MapComponents.vue'
@@ -296,6 +299,131 @@ const option2: echarts.EChartsOption = {
     },
   ],
 }
+
+const list3 = [11, 12, 15, 18, 19, 19, 19, 21, 24, 31]
+const total3 = list1.reduce((acc, val) => acc + val, 0)
+const nameList3 = [
+  '着陆距离小于250米',
+  '起飞阶段(50英尺以下)坡度大于6度',
+  '着陆阶段(50英尺以下)坡度大于6度',
+  '着陆距离大于900米',
+  '着陆收油门高度大于30英尺',
+  '接地姿态小于1度',
+  '着陆时偏流角度大(大于等于5度)',
+  '500-50进近下降率大',
+  '着陆载荷超过1.5',
+  '带油门接地(油门位置超过44)',
+]
+
+// 名字长度格式化
+const formatName = (name) => {
+  const maxLen = 6 // 每行最多字符数
+  if (name.length <= maxLen) return name
+  const regex = new RegExp(`.{1,${maxLen}}`, 'g')
+  return name.match(regex).join('\n')
+}
+
+const option3: echarts.EChartsOption = {
+  // title: {
+  //   text: 'Bar Chart with Negative Value',
+  // },
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow',
+    },
+  },
+  grid: {
+    left: 100,
+    top: 10,
+    bottom: 15,
+  },
+  xAxis: {
+    type: 'value',
+    // position: 'top',
+    splitLine: {
+      lineStyle: {
+        color: '#3959a7',
+        // type: 'dashed',
+      },
+    },
+    axisLabel: {
+      show: false,
+    },
+  },
+  yAxis: {
+    type: 'category',
+    axisLabel: {
+      color: '#fff',
+      opacity: 0.6,
+    },
+    axisTick: {
+      show: false,
+    },
+    data: nameList3.map((item) => formatName(item)),
+  },
+  series: [
+    {
+      name: 'Cost',
+      type: 'bar',
+      stack: 'Total',
+      label: {
+        show: true,
+        position: 'inside',
+        offset: [0, 1.2],
+        formatter: (params) => {
+          const percent = ((Number(params.value) / total3) * 100).toFixed(1)
+          return `${params.value}/${percent}%`
+        },
+      },
+      itemStyle: {
+        color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [
+          { offset: 0, color: '#01bee8' },
+          { offset: 0.5, color: '#1e98db' },
+          { offset: 1, color: '#3a74cf' },
+        ]),
+        borderRadius: 12, // 设置柱体圆角半径
+      },
+      barWidth: '50%',
+      data: list3,
+    },
+  ],
+}
+
+const demoList = [
+  [394.42, 5.5, 200.0, 2.2, 394.42, 7.2],
+  [354.98, 5.78, 190.0, 2.42, 414.14, 6.48],
+  [414.14, 5.23, 210.0, 1.98, 374.7, 7.56],
+  [386.53, 5.61, 204.0, 2.09, 402.31, 7.06],
+  [398.36, 5.12, 206.5, 2.05, 390.1, 7.6],
+  [390.5, 5.83, 194.8, 2.35, 398.7, 6.9],
+]
+
+const curIndex = ref(0)
+
+const indexList = ref({
+  prevList: [0, 0, 0, 0, 0, 0, 0],
+  curList: demoList[0],
+})
+
+onMounted(() => {
+  const length = demoList.length
+  setInterval(() => {
+    if (curIndex.value + 1 === length) {
+      indexList.value = {
+        prevList: demoList[curIndex.value],
+        curList: demoList[0],
+      }
+      curIndex.value = 0
+    } else {
+      indexList.value = {
+        prevList: demoList[curIndex.value],
+        curList: demoList[curIndex.value + 1],
+      }
+      curIndex.value += 1
+    }
+  }, 3500)
+})
 </script>
 
 <style lang="less" scoped>

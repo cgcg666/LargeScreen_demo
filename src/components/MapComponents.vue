@@ -3,11 +3,7 @@
     <div class="display-area">
       <div class="box">
         <div class="icon">
-          <img
-            id="u1443_img"
-            class="img"
-            src="http://47.120.1.240/gsc/JNX63E/cb/40/f9/cb40f9a56def469eb0d4a63b6a7b7361/images/cfit_专题大屏_1/u1443.svg"
-          />
+          <img id="u1443_img" class="img" src="@/assets/airplanetakeoff.svg" />
         </div>
         <div class="right-item">
           <div>航班量</div>
@@ -24,11 +20,7 @@
       </div>
       <div class="box">
         <div class="icon">
-          <img
-            id="u1448_img"
-            class="img"
-            src="http://47.120.1.240/gsc/JNX63E/cb/40/f9/cb40f9a56def469eb0d4a63b6a7b7361/images/cfit_专题大屏_1/u1448.svg"
-          />
+          <img id="u1448_img" class="img" src="@/assets/point.svg" />
         </div>
         <div class="right-item">
           <div>重点监控事件发生次数/率</div>
@@ -53,11 +45,7 @@
       </div>
       <div class="box">
         <div class="icon">
-          <img
-            id="u1452_img"
-            class="img"
-            src="http://47.120.1.240/gsc/JNX63E/cb/40/f9/cb40f9a56def469eb0d4a63b6a7b7361/images/cfit_专题大屏_1/u1452.svg"
-          />
+          <img id="u1452_img" class="img" src="@/assets/riskIndex.svg" />
         </div>
         <div class="right-item">
           <div>可控飞行撞地风险指数</div>
@@ -81,11 +69,7 @@
       </div>
       <div class="box">
         <div class="icon">
-          <img
-            id="u1825_img"
-            class="img"
-            src="http://47.120.1.240/gsc/JNX63E/cb/40/f9/cb40f9a56def469eb0d4a63b6a7b7361/images/cfit_专题大屏_1/u1825.svg"
-          />
+          <img id="u1825_img" class="img" src="@/assets/peopleNum.svg" />
         </div>
         <div class="right-item">
           <div>橙色人数</div>
@@ -102,11 +86,7 @@
       </div>
       <div class="box">
         <div class="icon">
-          <img
-            id="u1831_img"
-            class="img"
-            src="http://47.120.1.240/gsc/JNX63E/cb/40/f9/cb40f9a56def469eb0d4a63b6a7b7361/images/cfit_专题大屏_1/u1831.svg"
-          />
+          <img id="u1831_img" class="img" src="@/assets/peopleNum2.svg" />
         </div>
         <div class="right-item">
           <div>黄色人数</div>
@@ -123,11 +103,7 @@
       </div>
       <div class="box">
         <div class="icon">
-          <img
-            id="u1832_img"
-            class="img"
-            src="http://47.120.1.240/gsc/JNX63E/cb/40/f9/cb40f9a56def469eb0d4a63b6a7b7361/images/cfit_专题大屏_1/u1832.svg"
-          />
+          <img id="u1832_img" class="img" src="@/assets/peopleNum3.svg" />
         </div>
         <div class="right-item">
           <div>红色人数</div>
@@ -233,7 +209,7 @@ function chartMap() {
       },
       // 视角控制
       viewControl: {
-        distance: 100, // 相机与视点的距离
+        distance: 92, // 相机与视点的距离
         alpha: 65, // 俯视角度（垂直方向）
         beta: 0, // 水平旋转角度
         animation: true, // 是否开启动画。[ default: true ]
@@ -256,7 +232,7 @@ function chartMap() {
         shading: 'realistic', // 柱子自身的光照模式（更真实）
         realisticMaterial: {
           roughness: 0, // 粗糙度
-          metalness: 0, // 金属度
+          metalness: 0.5, // 金属度
         },
         data: cityData.map((c) => {
           // 根据事件发生率判断风险等级颜色
@@ -282,7 +258,7 @@ function chartMap() {
             },
             itemStyle: {
               color, // 柱子颜色（根据风险等级）
-              opacity: 0.8, // 柱子不透明度
+              opacity: 0.7, // 柱子不透明度
             },
             emphasis: {
               label: {
@@ -463,7 +439,7 @@ onMounted(() => {
   setInterval(() => {
     // 每隔5秒更新一次数据
     updateData()
-  }, 5000)
+  }, 3500)
 })
 </script>
 
@@ -471,6 +447,8 @@ onMounted(() => {
 .map-container {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
   .display-area {
     margin-top: 40px;
     width: 100%;
@@ -493,7 +471,7 @@ onMounted(() => {
         }
       }
       .right-item {
-        font-size: 14px;
+        font-size: 0.8rem;
         color: #fff;
         text-align: center;
       }
@@ -504,11 +482,13 @@ onMounted(() => {
     width: 100%;
     text-align: center;
     color: #fff;
-    font-size: 20px;
+    font-size: 1.2rem;
+            letter-spacing: 0.1em;
   }
   .map {
-    width: 100%;
-    height: calc(100% - 110px);
+    flex: 1;
+    // width: 100%;
+    // height: calc(100% - 110px);
   }
 }
 </style>

@@ -3,7 +3,7 @@
  * @Author: cg
  * @Date: 2025-06-24 16:34:52
  * @LastEditors: cg
- * @LastEditTime: 2025-06-25 14:26:54
+ * @LastEditTime: 2025-06-25 16:42:28
 -->
 <template>
   <div class="border_container" :style="props.style">
@@ -37,8 +37,8 @@ const slots = computed(() => !!useSlots().default)
     content: '';
     width: 20px;
     height: 30px;
-    border-left: 3px solid #0064ff;
-    border-top: 3px solid #0064ff;
+    border-left: 3px solid #36a4cb;
+    border-top: 3px solid #36a4cb;
     left: -1.5px;
     top: -1.5px;
   }
@@ -47,29 +47,34 @@ const slots = computed(() => !!useSlots().default)
     content: '';
     width: 20px;
     height: 30px;
-    border-right: 3px solid #0064ff;
-    border-bottom: 3px solid #0064ff;
+    border-right: 3px solid #36a4cb;
+    border-bottom: 3px solid #36a4cb;
     right: -1.5px;
     bottom: -1.5px;
   }
   .border_title {
-    margin: 0.2rem 0 0 0.5rem;
+    margin: 0.5rem 0 0 0.6rem;
     color: white;
     font-size: 0.9rem;
     position: relative;
-    height: 1.8rem;
-    width: 100%;
-    font-weight: bold;
-    &::after {
-      position: absolute;
-      content: '';
-      width: 4rem;
-      height: 1px;
-      background: #0258f0;
-      left: 1.7rem;
-      opacity: 0.4;
-      bottom: 0;
-    }
+    height: 1.5rem;
+    width: calc(100% - 1rem);
+    // font-weight: bold;
+    background: linear-gradient(to right,#36a4cb,transparent) ;
+    border-radius: 20px;
+    padding-left: 0.5rem;
+    line-height: 1.5rem;
+    // padding-right: ;
+    // &::after {
+    //   position: absolute;
+    //   content: '';
+    //   width: 4rem;
+    //   height: 1px;
+    //   background: #0258f0;
+    //   left: 1.7rem;
+    //   opacity: 0.4;
+    //   bottom: 0;
+    // }
   }
   .border_content {
     flex: 1;

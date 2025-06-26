@@ -328,12 +328,14 @@ defineExpose({
       cursor: pointer;
       opacity: 0;
       pointer-events: none;
-      background-color: rgba(0, 0, 0, 0.25);
+      // background-color: rgba(0, 0, 0, 0.25);
+      background: #36a4cb;
       transition:
         background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
         opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       &:hover {
-        background-color: rgba(0, 0, 0, 0.4);
+        background: #70cbec;
+        // background-color: rgba(0, 0, 0, 0.4);
       }
     }
     .track-visible {
