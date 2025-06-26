@@ -147,6 +147,11 @@ const option1: echarts.EChartsOption = {
   // },
   tooltip: {
     trigger: 'axis',
+    backgroundColor: 'rgba(0, 35, 120, 0.7)',
+    borderColor: 'rgba(100, 162, 255, 0.3)',
+    textStyle: {
+      color: '#fff',
+    },
     axisPointer: {
       type: 'shadow',
     },
@@ -228,6 +233,11 @@ const option2: echarts.EChartsOption = {
   // },
   tooltip: {
     trigger: 'axis',
+    backgroundColor: 'rgba(0, 35, 120, 0.7)',
+    borderColor: 'rgba(100, 162, 255, 0.3)',
+    textStyle: {
+      color: '#fff',
+    },
     axisPointer: {
       type: 'shadow',
     },
@@ -329,6 +339,11 @@ const option3: echarts.EChartsOption = {
   // },
   tooltip: {
     trigger: 'axis',
+    backgroundColor: 'rgba(0, 35, 120, 0.7)',
+    borderColor: 'rgba(100, 162, 255, 0.3)',
+    textStyle: {
+      color: '#fff',
+    },
     axisPointer: {
       type: 'shadow',
     },

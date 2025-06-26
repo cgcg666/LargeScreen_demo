@@ -72,10 +72,15 @@ option.value = {
   tooltip: {
     show: true,
     trigger: 'axis',
+    backgroundColor: 'rgba(0, 35, 120, 0.7)',
+    borderColor: 'rgba(100, 162, 255, 0.3)',
+    textStyle: {
+      color: '#fff',
+    },
     position: function (point, params, dom, rect, size) {
       const { contentSize, viewSize } = size
       const [x, y] = point
-      return [x, viewSize[1] - contentSize[1] - 40] // 距离底部 10px
+      return [x - contentSize[0] / 2, viewSize[1] - contentSize[1] - 40] // 距离底部 10px
     },
   },
   series: [
@@ -89,9 +94,20 @@ option.value = {
       },
       itemStyle: {
         color: '#72b0f9',
+        opacity: 0,
       },
       areaStyle: {
-        color: 'rgba(114, 176, 249,0.1)',
+        color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [
+            { offset: 0, color: 'rgba(114, 176, 249, 0.5)' },
+            { offset: 1, color: 'rgba(114, 176, 249, 0)' },
+          ],
+        },
       },
     },
     {
@@ -104,9 +120,20 @@ option.value = {
       },
       itemStyle: {
         color: '#20cc98',
+        opacity: 0,
       },
       areaStyle: {
-        color: 'rgba(32, 204, 152,0.1)',
+        color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [
+            { offset: 0, color: 'rgba(32, 204, 152, 0.5)' },
+            { offset: 1, color: 'rgba(32, 204, 152, 0)' },
+          ],
+        },
       },
     },
     {
@@ -119,9 +146,20 @@ option.value = {
       },
       itemStyle: {
         color: '#20b9cf',
+        opacity: 0,
       },
       areaStyle: {
-        color: 'rgba(32, 185, 207,0.1)',
+        color: {
+          type: 'linear',
+          x: 0,
+          y: 0,
+          x2: 0,
+          y2: 1,
+          colorStops: [
+            { offset: 0, color: 'rgba(32, 185, 207, 0.5)' },
+            { offset: 1, color: 'rgba(32, 185, 207, 0)' },
+          ],
+        },
       },
     },
   ],

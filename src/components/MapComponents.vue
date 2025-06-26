@@ -145,6 +145,11 @@ function chartMap() {
 
     // 鼠标悬浮提示框配置
     tooltip: {
+      backgroundColor: 'rgba(0, 35, 120, 0.7)',
+      borderColor: 'rgba(100, 162, 255, 0.3)',
+      textStyle: {
+        color: '#fff',
+      },
       // 自定义内容格式化函数
       formatter: (params) => {
         const data = cityData.find((c) => c.name === params.name)
@@ -158,10 +163,6 @@ function chartMap() {
         </div>
       `
       },
-      // 提示框背景颜色
-      backgroundColor: 'rgba(0,0,0,0.8)',
-      // 提示框文字样式
-      textStyle: { color: '#fff' },
     },
 
     // 地理三维图配置
@@ -416,21 +417,20 @@ const redPeopleCount = ref([0, 4, 2, 1, 0, 0, 0, 0, 0, 0, 0]) // 红色人员数
 
 function updateData() {
   // 取消上一个高亮
-    chartRef.value?.dispatchAction({
-      type: 'downplay',
-      seriesIndex: 0,
-      dataIndex: displayIndex.value,
-    })
+  chartRef.value?.dispatchAction({
+    type: 'downplay',
+    seriesIndex: 0,
+    dataIndex: displayIndex.value,
+  })
 
-    displayIndex.value = (displayIndex.value + 1) % 10 // 每隔5秒更新一次数据
+  displayIndex.value = (displayIndex.value + 1) % 10 // 每隔5秒更新一次数据
 
-    // 高亮当前柱子
-    chartRef.value?.dispatchAction({
-      type: 'highlight',
-      seriesIndex: 0,
-      dataIndex: displayIndex.value,
-    })
-
+  // 高亮当前柱子
+  chartRef.value?.dispatchAction({
+    type: 'highlight',
+    seriesIndex: 0,
+    dataIndex: displayIndex.value,
+  })
 }
 
 onMounted(() => {
@@ -483,7 +483,7 @@ onMounted(() => {
     text-align: center;
     color: #fff;
     font-size: 1.2rem;
-            letter-spacing: 0.1em;
+    letter-spacing: 0.1em;
   }
   .map {
     flex: 1;

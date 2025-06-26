@@ -78,6 +78,11 @@ function updateChart(highlightIndex: number) {
   option.value = {
     tooltip: {
       trigger: 'item',
+      backgroundColor: 'rgba(0, 35, 120, 0.7)',
+      borderColor: 'rgba(100, 162, 255, 0.3)',
+      textStyle: {
+        color: '#fff',
+      },
       formatter: '{b}<br/>数量: {c} 次<br/>占比: {d}%',
     },
     series: [
