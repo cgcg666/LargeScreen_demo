@@ -38,12 +38,14 @@ onMounted(() => {
         const percent = params.percent
 
         return `
-      <div style="display:flex;align-items:center;margin-bottom:4px;">
+      <div style="display:flex;align-items:center;margin-bottom:4px;font-size:0.8rem;">
         <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${color};margin-right:6px;"></span>
         <span>${name}</span>
       </div>
-      数量: ${value} 次<br/>
-      占比: ${percent}%
+      <div style="font-size:0.7rem;">
+        数量: ${value} 次<br/>
+        占比: ${percent}%
+      </div>
     `
       },
     },
