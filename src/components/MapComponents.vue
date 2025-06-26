@@ -199,9 +199,9 @@ function chartMap() {
         // 主光源
         main: {
           intensity: 0.8, // 强度
-          shadow: false, // 是否开启阴影
-          alpha: 55, // 光源垂直角度
-          beta: 10, // 光源水平角度
+          shadow: true, // 是否开启阴影
+          alpha: 60, // 光源垂直角度
+          beta: 60, // 光源水平角度
         },
         // 环境光
         ambient: {
@@ -210,7 +210,7 @@ function chartMap() {
       },
       // 视角控制
       viewControl: {
-        distance: 92, // 相机与视点的距离
+        distance: 80, // 相机与视点的距离
         alpha: 65, // 俯视角度（垂直方向）
         beta: 0, // 水平旋转角度
         animation: true, // 是否开启动画。[ default: true ]
@@ -233,7 +233,7 @@ function chartMap() {
         shading: 'realistic', // 柱子自身的光照模式（更真实）
         realisticMaterial: {
           roughness: 0, // 粗糙度
-          metalness: 0.5, // 金属度
+          metalness: 0, // 金属度
         },
         data: cityData.map((c) => {
           // 根据事件发生率判断风险等级颜色
@@ -252,24 +252,29 @@ function chartMap() {
               formatter: `${c.icaoCode}\n${c.incidents}/${(c.incidentRate * 100).toFixed(2)}%`,
               distance: 0, // 标签距离柱子顶部的距离
               textStyle: {
-                color: '#fff', // 标签文字颜色
-                fontSize: 12, // 标签文字大小
-                fontWeight: 'bold', // 标签文字加粗
+                color: '#ffffff', // 确保文字颜色足够亮
+                fontSize: 12, // 稍微放大字体
+                fontWeight: 'bolder', // 更粗的字重
+                textBorderColor: '#000', // 加文字描边提高对比
+                textBorderWidth: 2, // 描边宽度
               },
             },
             itemStyle: {
               color, // 柱子颜色（根据风险等级）
-              opacity: 0.7, // 柱子不透明度
+              opacity: 0.8, // 柱子不透明度
             },
             emphasis: {
               label: {
                 show: true,
-                fontSize: 14,
                 opacity: 1,
                 textStyle: {
-                  color: '#fff', // 标签文字颜色
-                  fontSize: 14, // 标签文字大小
-                  fontWeight: 'bold', // 标签文字加粗
+                  color: '#ffffff', // 确保文字颜色足够亮
+                  fontSize: 12, // 稍微放大字体
+                  fontWeight: 'bolder', // 更粗的字重
+                  textBorderColor: '#000', // 加文字描边提高对比
+                  textBorderWidth: 2, // 描边宽度
+                  shadowColor: '#fff',
+                  shadowBlur: 10, // 模拟发光效果
                 },
               },
               itemStyle: {
@@ -431,6 +436,7 @@ function updateData() {
     seriesIndex: 0,
     dataIndex: displayIndex.value,
   })
+
 }
 
 onMounted(() => {
@@ -449,6 +455,7 @@ onMounted(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
   .display-area {
     margin-top: 40px;
     width: 100%;
@@ -478,9 +485,10 @@ onMounted(() => {
     }
   }
   .title {
-    margin-top: 10px;
+    position:absolute;
+    left:10px;
+    top:120px;
     width: 100%;
-    text-align: center;
     color: #fff;
     font-size: 1.2rem;
     letter-spacing: 0.1em;

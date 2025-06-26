@@ -185,7 +185,7 @@ onMounted(() => {
     })
 
     currentIndex = (currentIndex + 1) % dataLen
-  }, 5000)
+  }, 3000)
 })
 
 onBeforeUnmount(() => {

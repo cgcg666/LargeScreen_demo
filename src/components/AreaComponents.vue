@@ -27,7 +27,7 @@ onMounted(() => {
       confine: true,
       position: [10, 10], // 左上角的绝对像素位置
       backgroundColor: 'rgba(0, 35, 120, 0.7)',
-      borderColor: 'rgba(100, 162, 255, 0.3)',
+      borderWidth: 2,
       textStyle: {
         color: '#fff',
       },
@@ -38,11 +38,11 @@ onMounted(() => {
         const percent = params.percent
 
         return `
-      <div style="display:flex;align-items:center;margin-bottom:4px;font-size:0.8rem;">
+      <div style="display:flex;align-items:center;margin-bottom:4px;font-size:0.6rem;">
         <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${color};margin-right:6px;"></span>
         <span>${name}</span>
       </div>
-      <div style="font-size:0.7rem;">
+      <div style="font-size:0.6rem;">
         数量: ${value} 次<br/>
         占比: ${percent}%
       </div>
@@ -79,12 +79,28 @@ onMounted(() => {
           formatter: '{d}%',
           color: '#fff',
           fontSize: 12,
+          textBorderColor: '#000', // 加文字描边提高对比
+          textBorderWidth: 2, // 描边宽度
         },
         labelLine: {
           show: false,
         },
         emphasis: {
-          disabled: true,
+          scale: true, // 默认就是 true，可以省略
+          scaleSize: 10, // 缩放比例，可选调整
+          itemStyle: {
+            shadowBlur: 30,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(255, 255, 255, 0.5)',
+          },
+          label: {
+            show: true,
+            fontSize: 14,
+            fontWeight: 'bold',
+            color: '#fff',
+            textBorderColor: '#000', // 加文字描边提高对比
+            textBorderWidth: 2, // 描边宽度
+          },
         },
       },
     ],
@@ -93,7 +109,12 @@ onMounted(() => {
   let index = 0
 
   setInterval(() => {
-    chartRef.value?.dispatchAction({ type: 'hideTip' })
+    chartRef.value?.dispatchAction({ type: 'downplay', seriesIndex: 0 }) // 取消所有高亮
+    chartRef.value?.dispatchAction({
+      type: 'highlight',
+      seriesIndex: 0,
+      dataIndex: index,
+    })
     chartRef.value?.dispatchAction({
       type: 'showTip',
       seriesIndex: 0,
