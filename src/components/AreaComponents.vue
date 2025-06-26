@@ -1,24 +1,14 @@
 <template>
-  <div class="w-full h-full flex flex-col items-center justify-center position-relative">
+  <div class="relative w-full h-full">
     <e-charts ref="chartRef" :option="option" autoresize />
-
-    <!-- 🧾 详情面板 -->
-    <!-- <div
-      v-if="currentIndex >= 0"
-      class=" text-white text-sm p-4 rounded w-full max-w-xl position-absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-800/50"
-    >
-      <div><strong>事件名：</strong>{{ pieData[currentIndex].name }}</div>
-      <div><strong>数量：</strong>{{ pieData[currentIndex].value }} 次</div>
-      <div><strong>占比：</strong>{{ getPercent(currentIndex) }}%</div>
-    </div> -->
   </div>
 </template>
-
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
 const chartRef = ref()
 const option = ref({})
+
 const pieData = [
   { value: 24, name: '着陆距离小于250米' },
   { value: 22, name: '起飞阶段坡度大于6度' },
@@ -30,123 +20,85 @@ const pieData = [
   { value: 2, name: '500-50进近下降率大' },
 ]
 
-const currentIndex = ref(-1)
-let timer: any = null
-let resumeTimer: any = null
-
-// function getPercent(index: number) {
-//   const total = pieData.reduce((sum, item) => sum + item.value, 0)
-//   return ((pieData[index].value / total) * 100).toFixed(2)
-// }
-
-function updateChart(highlightIndex: number) {
-  const newData = pieData.map((item, idx) => {
-    return {
-      ...item,
-      label: {
-        show: true,
-        position: idx === highlightIndex ? 'outside' : 'inside',
-        formatter: function (params: any) {
-          if (idx === highlightIndex) {
-            const name = params.name.match(/.{1,8}/g)?.join('\n') || params.name
-            return `{a|${name}}\n{b|${params.value} 次 (${params.percent}%)}`
-          }
-          return `{b|${params.percent}%}`
-        },
-        rich: {
-          a: { color: '#fff', fontSize: 12, lineHeight: 16 },
-          b: { color: '#fff', fontSize: 12 },
-        },
-        overflow: 'break',
-      },
-      labelLine: {
-        show: idx === highlightIndex,
-      },
-      emphasis: {
-        scale: true,
-        label: {
-          show: false, // 防止点击后自动outside
-        },
-        itemStyle: {
-          shadowBlur: 20,
-          shadowColor: 'rgba(0, 0, 0, 0.4)',
-        },
-      },
-    }
-  })
-
+onMounted(() => {
   option.value = {
     tooltip: {
       trigger: 'item',
+      confine: true,
+      position: [10, 10], // 左上角的绝对像素位置
       backgroundColor: 'rgba(0, 35, 120, 0.7)',
       borderColor: 'rgba(100, 162, 255, 0.3)',
       textStyle: {
         color: '#fff',
       },
-      formatter: '{b}<br/>数量: {c} 次<br/>占比: {d}%',
+      formatter: (params) => {
+        const color = params.color
+        const name = params.name
+        const value = params.value
+        const percent = params.percent
+
+        return `
+      <div style="display:flex;align-items:center;margin-bottom:4px;">
+        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${color};margin-right:6px;"></span>
+        <span>${name}</span>
+      </div>
+      数量: ${value} 次<br/>
+      占比: ${percent}%
+    `
+      },
     },
+    legend: {
+      orient: 'horizontal', // 横向排列
+      bottom: 0, // 放在底部
+      padding: [10, 0, 10, 0], // 上右下左 padding，避免靠太近
+      itemWidth: 12,
+      itemHeight: 12,
+      icon: 'circle',
+      textStyle: {
+        color: '#fff',
+        fontSize: 12,
+      },
+    },
+
     series: [
       {
         type: 'pie',
-        data: newData,
-        roseType: 'area',
+        data: pieData,
+        center: ['50%', '42%'],
         radius: ['0%', '75%'],
+        roseType: 'area',
         itemStyle: {
           borderColor: '#000',
           borderWidth: 1,
         },
-        labelLayout: {
-          hideOverlap: true,
+        label: {
+          show: true,
+          position: 'inside',
+          formatter: '{d}%',
+          color: '#fff',
+          fontSize: 12,
+        },
+        labelLine: {
+          show: false,
+        },
+        emphasis: {
+          disabled: true,
         },
       },
     ],
   }
+  // 🚀 自动轮播 tooltip
+  let index = 0
 
-  const chartInstance = chartRef.value?.getEchartsInstance?.()
-  if (chartInstance) {
-    chartInstance.dispatchAction({ type: 'downplay', seriesIndex: 0 })
-    if (highlightIndex >= 0) {
-      chartInstance.dispatchAction({
-        type: 'highlight',
-        seriesIndex: 0,
-        dataIndex: highlightIndex,
-      })
-    }
-  }
-}
-
-function startAutoLoop() {
-  clearInterval(timer)
-  timer = setInterval(() => {
-    currentIndex.value = (currentIndex.value + 1) % pieData.length
-    updateChart(currentIndex.value)
+  setInterval(() => {
+    chartRef.value?.dispatchAction({ type: 'hideTip' })
+    chartRef.value?.dispatchAction({
+      type: 'showTip',
+      seriesIndex: 0,
+      dataIndex: index,
+    })
+    index = (index + 1) % pieData.length
   }, 3000)
-}
-
-function handleClick(index: number) {
-  clearInterval(timer)
-  clearTimeout(resumeTimer)
-
-  currentIndex.value = index
-  updateChart(index)
-
-  // ⏳ 5秒后恢复轮播
-  resumeTimer = setTimeout(() => {
-    startAutoLoop()
-  }, 5000)
-}
-
-onMounted(() => {
-  updateChart(-1)
-  startAutoLoop()
-
-  const chartInstance = chartRef.value?.getEchartsInstance?.()
-  chartInstance?.on('click', (params: any) => {
-    handleClick(params.dataIndex)
-  })
 })
 </script>
-
-<style scoped>
-/* 自定义样式可视需求增强 */
-</style>
+<style scoped></style>
