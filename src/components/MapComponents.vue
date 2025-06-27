@@ -48,7 +48,7 @@
           <img id="u1452_img" class="img" src="@/assets/riskIndex.svg" />
         </div>
         <div class="right-item">
-          <div>可控飞行撞地风险指数</div>
+          <div>风险指数</div>
           <div
             :class="{
               'text-red-500': riskIndex[displayIndex + 1] > 10.5,
@@ -119,7 +119,7 @@
         </div>
       </div>
     </div>
-    <div class="title">可控飞行撞地风险机场TOP10</div>
+    <div class="title">风险机场TOP10</div>
     <div class="map">
       <e-charts ref="chartRef" :option="option" autoresize></e-charts>
     </div>

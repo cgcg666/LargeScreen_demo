@@ -7,15 +7,15 @@
 -->
 <template>
   <div class="container">
-    <div class="title">CTIT 专题大屏</div>
+    <div class="title">CFIT 可控飞行撞地</div>
     <div class="content">
       <div style="grid-area: 1 / 1 / 11 / 5">
-        <Board title="可控飞行撞地风险飞机TOP10">
+        <Board title="风险飞机TOP10">
           <e-charts :option="option1" autoresize></e-charts>
         </Board>
       </div>
       <div style="grid-area: 11 / 1 / 21 / 5">
-        <Board title="可控飞行撞地风险人员TOP10">
+        <Board title="风险人员TOP10">
           <e-charts :option="option2" autoresize></e-charts>
         </Board>
       </div>
